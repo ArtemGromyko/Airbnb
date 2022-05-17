@@ -1,6 +1,6 @@
-﻿using AutoMapper;
+﻿using Application.Commands.CreateRoom;
+using AutoMapper;
 using Domain.Entities;
-using Services.Features.Commands.Commands;
 
 namespace Services.Common.Mappings;
 

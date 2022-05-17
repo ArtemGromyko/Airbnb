@@ -1,11 +1,21 @@
+using WebApi.Extensions;
+using MediatR;
+using Application.Commands.CreateRoom;
+
 var builder = WebApplication.CreateBuilder(args);
+
+var services = builder.Services;
+var configuration = builder.Configuration;
 
 // Add services to the container.
 
-builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+services.AddControllers();
+services.AddEndpointsApiExplorer();
+services.AddSwaggerGen();
+services.ConfigureSqlContext(configuration);
+services.ConfigureRepositories();
+services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+services.AddMediatR(typeof(CreateRoomCommand).Assembly);
 
 var app = builder.Build();
 
