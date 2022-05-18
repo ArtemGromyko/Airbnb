@@ -1,4 +1,5 @@
 ﻿using Application.Commands.CreateRoom;
+using Application.Commands.UpdateRoom;
 using AutoMapper;
 using Domain.Entities;
 
@@ -15,5 +16,6 @@ public class MappingProfile : Profile
     {
         CreateMap<Room, RoomDTO>().ReverseMap();
         CreateMap<CreateRoomCommand, Room>();
+        CreateMap<UpdateRoomCommand, Room>();
     }
 }
