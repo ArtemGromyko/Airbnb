@@ -1,6 +1,7 @@
 using WebApi.Extensions;
 using MediatR;
 using Application.Commands.CreateRoom;
+using Application.Common.Behaviours;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,6 +17,7 @@ services.ConfigureSqlContext(configuration);
 services.ConfigureRepositories();
 services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 services.AddMediatR(typeof(CreateRoomCommand).Assembly);
+services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehaviour<,>));
 
 var app = builder.Build();
 
