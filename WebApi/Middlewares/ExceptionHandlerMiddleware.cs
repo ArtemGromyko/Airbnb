@@ -14,7 +14,7 @@ namespace WebApi.Middlewares
             _next = next;
         }
 
-        public async Task Invoke(HttpContext context)
+        public async Task InvokeAsync(HttpContext context, IWebHostEnvironment environment)
         {
             try
             {
@@ -22,11 +22,11 @@ namespace WebApi.Middlewares
             }
             catch (Exception exception)
             {
-                await HandleExceptionAsync(context, exception);
+                await HandleExceptionAsync(context, exception, environment);
             }
         }
 
-        private Task HandleExceptionAsync(HttpContext context, Exception exception)
+        private Task HandleExceptionAsync(HttpContext context, Exception exception, IWebHostEnvironment environment)
         {
             var code = HttpStatusCode.InternalServerError;
             var result = string.Empty;
@@ -39,13 +39,19 @@ namespace WebApi.Middlewares
                 case NotFoundException:
                     code = HttpStatusCode.NotFound;
                     break;
+                case Exception when environment.IsDevelopment():
+                    throw exception;
+                case Exception:
+                    code = HttpStatusCode.InternalServerError;
+                    result = "Internal server error";
+                    break;
             }
             context.Response.ContentType = "application/json";
             context.Response.StatusCode = (int)code;
 
             if (result == string.Empty)
             {
-                result = JsonSerializer.Serialize(new { errpr = exception.Message });
+                result = JsonSerializer.Serialize(new { error = exception.Message });
             }
 
             return context.Response.WriteAsync(result);

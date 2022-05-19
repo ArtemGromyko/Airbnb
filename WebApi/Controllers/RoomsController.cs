@@ -39,7 +39,7 @@ public class RoomsController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> CreateRoomAsync(CreateRoomCommand command)
+    public async Task<IActionResult> CreateRoomAsync([FromBody]CreateRoomCommand command)
     {
         var id = await _mediator.Send(command);
 
@@ -47,7 +47,7 @@ public class RoomsController : ControllerBase
     }
 
     [HttpPut("id")]
-    public async Task<IActionResult> UpdateRoomAsync(Guid id, [FromBody] UpdateRoomCommand command)
+    public async Task<IActionResult> UpdateRoomAsync(Guid id, [FromBody]UpdateRoomCommand command)
     {
         if (id != command.Id)
         {
