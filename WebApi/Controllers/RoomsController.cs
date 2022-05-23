@@ -27,7 +27,7 @@ public class RoomsController : ControllerBase
     {
         var roomDTOs = await _mediator.Send(new GetRoomsQuery());
 
-        return Ok(roomDTOs);
+        return roomDTOs is null ? NoContent() : Ok(roomDTOs);
     }
 
     [HttpGet("id", Name = "GetRoomByIdAsync")]

@@ -2,6 +2,7 @@
 using Domain.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Persistence;
+using Persistence.Repositories;
 
 namespace WebApi.Extensions;
 
@@ -16,5 +17,6 @@ public static class ServiceExtensions
     public static void ConfigureRepositories(this IServiceCollection services)
     {
         services.AddScoped<IRoomRepository, RoomRepository>();
+        services.AddScoped<IReservationRepository, ReservationRepository>();
     }
 }
