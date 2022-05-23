@@ -15,8 +15,8 @@ builder.Host.UseSerilog((context, configuration) =>
         configuration.Enrich.FromLogContext()
             .Enrich.WithMachineName()
             .WriteTo.Console()
-            .WriteTo.File("../Logs/AirbnbWebAppLog-.txt", rollingInterval: RollingInterval.Day)
-            .Enrich.WithProperty("Environment", context.HostingEnvironment.EnvironmentName)
+            .WriteTo.File(context.Configuration["Logs:LogsPath"], rollingInterval: RollingInterval.Day)
+            .Enrich.WithProperty(context.Configuration["Logs:Environment"], context.HostingEnvironment.EnvironmentName)
             .ReadFrom.Configuration(context.Configuration);
     });
 
