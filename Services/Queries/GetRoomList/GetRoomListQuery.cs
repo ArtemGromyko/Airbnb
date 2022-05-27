@@ -2,4 +2,4 @@
 
 namespace Application.Queries.GetRooms;
 
-public record GetRoomsQuery : IRequest<List<RoomDTO>>;
+public record GetRoomListQuery : IRequest<List<RoomDTO>>;

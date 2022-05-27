@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using Application.Common.Exceptions;
+using AutoMapper;
 using Domain.Repositories;
 using MediatR;
 
@@ -18,6 +19,10 @@ internal class GetRoomByIdQueryHandler : IRequestHandler<GetRoomByIdQuery, RoomD
     public async Task<RoomDTO> Handle(GetRoomByIdQuery request, CancellationToken cancellationToken)
     {
         var room = await _roomRepository.GetRoomByIdAsync(request.Id);
+        if(room == null)
+        {
+            throw new NotFoundException(nameof(room), request.Id);
+        }
 
         return _mapper.Map<RoomDTO>(room);
     }

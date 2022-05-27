@@ -6,6 +6,6 @@ public class DeleteRoomCommandValidator : AbstractValidator<DeleteRoomCommand>
 {
     public DeleteRoomCommandValidator()
     {
-        RuleFor(deleteRoomCommand => deleteRoomCommand.Id).NotEqual(Guid.Empty);
+        RuleFor(deleteRoomCommand => deleteRoomCommand.Id).NotEmpty().NotEqual(Guid.Empty);
     }
 }

@@ -3,4 +3,4 @@ using MediatR;
 
 namespace Application.Queries.GetReservations;
 
-public record GetReservationsQuery : IRequest<List<ReservationDTO>>;
+public record GetReservationListQuery : IRequest<List<ReservationDTO>>;

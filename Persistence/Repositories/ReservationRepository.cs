@@ -15,6 +15,12 @@ public class ReservationRepository : RepositoryBase<Reservation>, IReservationRe
     public async Task<List<Reservation>> GetReservationListAsync() =>
         await FindAll().ToListAsync();
 
+    public async Task<List<Reservation>> GetReservationListForRoomAsync(Guid roomId) =>
+        await FindByCondition(r => r.RoomId.Equals(roomId)).ToListAsync();
+
+    public async Task<Reservation> GetReservationForRoomAsync(Guid roomId, Guid id) =>
+        await FindByCondition(r => r.RoomId.Equals(roomId) && r.Id.Equals(id)).SingleOrDefaultAsync();
+
     public async Task CreateReservationAsync(Reservation reservation) =>
         await CreateAsync(reservation);
 

@@ -4,18 +4,18 @@ using MediatR;
 
 namespace Application.Queries.GetRooms;
 
-internal class GetRoomsQueryHandler : IRequestHandler<GetRoomsQuery, List<RoomDTO>>
+internal class GetRoomListQueryHandler : IRequestHandler<GetRoomListQuery, List<RoomDTO>>
 {
     private readonly IMapper _mapper;
     private readonly IRoomRepository _roomRepository;
 
-    public GetRoomsQueryHandler(IMapper mapper, IRoomRepository roomRepository)
+    public GetRoomListQueryHandler(IMapper mapper, IRoomRepository roomRepository)
     {
         _mapper = mapper;
         _roomRepository = roomRepository;
     }
 
-    public async Task<List<RoomDTO>> Handle(GetRoomsQuery query, CancellationToken cancellationToken)
+    public async Task<List<RoomDTO>> Handle(GetRoomListQuery query, CancellationToken cancellationToken)
     {
         var rooms = await _roomRepository.GetRoomListAsync();
 

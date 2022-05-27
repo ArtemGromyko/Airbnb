@@ -1,4 +1,6 @@
-﻿using Application.Commands.CreateRoom;
+﻿using Application.Commands.CreateReservation;
+using Application.Commands.CreateRoom;
+using Application.Commands.UpdateReservation;
 using Application.Commands.UpdateRoom;
 using AutoMapper;
 using Contracts.DTO;
@@ -24,5 +26,7 @@ public class MappingProfile : Profile
     private void CreateMapsForReservations()
     {
         CreateMap<Reservation, ReservationDTO>().ReverseMap();
+        CreateMap<CreateReservationCommand, Reservation>();
+        CreateMap<UpdateReservationCommand, Reservation>();
     }
 }

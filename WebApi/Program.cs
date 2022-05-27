@@ -25,7 +25,7 @@ var configuration = builder.Configuration;
 
 // Add services to the container.
 
-services.AddControllers().AddFluentValidation(c =>
+services.AddControllers(options => options.SuppressAsyncSuffixInActionNames = false).AddFluentValidation(c =>
 {
     c.RegisterValidatorsFromAssemblyContaining<CreateRoomCommand>();
     c.ValidatorFactoryType = typeof(HttpContextServiceProviderValidatorFactory);
