@@ -25,7 +25,7 @@ public class CreateReservationCommandHandler : IRequestHandler<CreateReservation
         var room = await _roomRepository.GetRoomByIdAsync(request.RoomId);
         if (room == null)
         {
-            throw new NotFoundException(nameof(room).ToLower(), request.RoomId);
+            throw new NotFoundException(nameof(room), request.RoomId);
         }
 
         var reservation = _mapper.Map<Reservation>(request);

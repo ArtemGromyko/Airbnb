@@ -6,6 +6,9 @@ public class DeleteReservationCommandValidator : AbstractValidator<DeleteReserva
 {
     public DeleteReservationCommandValidator()
     {
-        RuleFor(deleteReservationCommand => deleteReservationCommand.Id).NotEmpty().NotEqual(Guid.Empty);
+        RuleFor(deleteReservationCommand => deleteReservationCommand.RoomId)
+            .NotEmpty();
+        RuleFor(deleteReservationCommand => deleteReservationCommand.Id)
+            .NotEmpty();
     }
 }

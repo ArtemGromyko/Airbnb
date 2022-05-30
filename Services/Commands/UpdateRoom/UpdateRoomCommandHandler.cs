@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using Application.Common.Exceptions;
+using AutoMapper;
 using Domain.Entities;
 using Domain.Repositories;
 using MediatR;
@@ -18,7 +19,13 @@ internal class UpdateRoomCommandHandler : IRequestHandler<UpdateRoomCommand>
 
     public async Task<Unit> Handle(UpdateRoomCommand request, CancellationToken cancellationToken)
     {
-        var room = _mapper.Map<Room>(request);
+        var room = await _roomRepository.GetRoomByIdAsync(request.Id);
+        if (room == null)
+        {
+            throw new NotFoundException(nameof(room), request.Id);
+        }
+        
+        room = _mapper.Map<Room>(request);
         await _roomRepository.UpdateRoomAsync(room);
 
         return Unit.Value;

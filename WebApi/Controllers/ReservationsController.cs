@@ -74,7 +74,7 @@ namespace WebApi.Controllers
         public async Task<IActionResult> UdpateReservationAsync(Guid roomId, Guid id,
             [FromBody]UpdateReservationCommand command)
         {
-            if (command.RoomId != roomId)
+            if (command.RoomId != roomId || command.Id != id)
             {
                 return BadRequest();
             }
@@ -87,7 +87,7 @@ namespace WebApi.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteReservationAsync(Guid roomId, Guid id)
         {
-            await _mediator.Send(new DeleteReservationCommand(id));
+            await _mediator.Send(new DeleteReservationCommand(roomId, id));
 
             return NoContent();
         }

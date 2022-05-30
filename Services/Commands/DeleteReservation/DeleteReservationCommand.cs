@@ -2,4 +2,4 @@
 
 namespace Application.Commands.DeleteReservation;
 
-public record DeleteReservationCommand(Guid Id) : IRequest;
+public record DeleteReservationCommand(Guid RoomId, Guid Id) : IRequest;

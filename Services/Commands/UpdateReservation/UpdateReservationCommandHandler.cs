@@ -28,7 +28,14 @@ public class UpdateReservationCommandHandler : IRequestHandler<UpdateReservation
             throw new NotFoundException(nameof(room), request.RoomId);
         }
 
-        var reservation = _mapper.Map<Reservation>(request);
+        var reservation = await _reservationRepository.GetReservationForRoomAsync(
+            request.RoomId, request.Id);
+        if (reservation == null)
+        {
+            throw new NotFoundException(nameof(reservation), request.Id, request.RoomId);
+        }
+
+        reservation = _mapper.Map<Reservation>(request);
         await _reservationRepository.UpdateReservationAsync(reservation);
 
         return Unit.Value;

@@ -5,7 +5,7 @@ using MediatR;
 
 namespace Application.Commands.CreateRoom;
 
-internal class CreateRoomCommandHandler : IRequestHandler<CreateRoomCommand, Guid>
+public class CreateRoomCommandHandler : IRequestHandler<CreateRoomCommand, Guid>
 {
     private readonly IRoomRepository _roomRepository;
     private readonly IMapper _mapper;

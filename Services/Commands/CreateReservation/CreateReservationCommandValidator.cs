@@ -7,8 +7,7 @@ public class CreateReservationCommandValidator : AbstractValidator<CreateReserva
     public CreateReservationCommandValidator()
     {
         RuleFor(createReservationCommand => createReservationCommand.RoomId)
-            .NotEmpty()
-            .NotEqual(Guid.Empty);
+            .NotEmpty();
         RuleFor(createReservationCommand => createReservationCommand.StartDate)
             .NotEmpty();
         RuleFor(createReservationCommand => createReservationCommand.EndDate)

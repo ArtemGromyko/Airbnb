@@ -2,4 +2,5 @@
 
 namespace Application.Commands.UpdateReservation;
 
-public record UpdateReservationCommand(DateTime StartDate, DateTime EndDate, Guid RoomId) : IRequest;
+public record UpdateReservationCommand(Guid RoomId, Guid Id, DateTime StartDate,
+    DateTime EndDate) : IRequest;

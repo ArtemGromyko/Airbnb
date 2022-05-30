@@ -6,6 +6,8 @@ public class UpdateReservationCommandValidator : AbstractValidator<UpdateReserva
 {
     public UpdateReservationCommandValidator()
     {
+        RuleFor(updateReservationCommand => updateReservationCommand.Id)
+            .NotEqual(Guid.Empty);
         RuleFor(updateReservationCommand => updateReservationCommand.RoomId)
             .NotEqual(Guid.Empty);
         RuleFor(createReservationCommand => createReservationCommand.EndDate)
