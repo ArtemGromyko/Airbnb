@@ -36,18 +36,6 @@ public class RoomsController : ControllerBase
         return Ok(roomDTO);
     }
 
-    [HttpGet("{roomId}/reservations")]
-    public async Task<IActionResult> GetReservationListForRoomAsync(Guid roomId)
-    {
-        throw new NotImplementedException();
-    }
-
-    [HttpGet("{roomId}/reservations/{id}")]
-    public async Task<IActionResult> GetReservationForRooomAsync(Guid roomId, Guid id)
-    {
-        throw new NotImplementedException();
-    }
-
     [HttpPost]
     public async Task<IActionResult> CreateRoomAsync([FromBody]CreateRoomCommand command)
     {

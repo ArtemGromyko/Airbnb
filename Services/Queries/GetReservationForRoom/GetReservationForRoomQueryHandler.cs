@@ -23,16 +23,16 @@ public class GetReservationForRoomQueryHandler : IRequestHandler<GetReservationF
     public async Task<ReservationDTO> Handle(GetReservationForRoomQuery request,
         CancellationToken cancellationToken)
     {
-        var room = await _roomRepository.GetRoomByIdAsync(request.roomId);
+        var room = await _roomRepository.GetRoomByIdAsync(request.RoomId);
         if (room == null)
         {
-            throw new NotFoundException(nameof(room), request.roomId);
+            throw new NotFoundException(nameof(room), request.RoomId);
         }
 
-        var reservation = await _reservaitonRepository.GetReservationForRoomAsync(request.roomId, request.id);
+        var reservation = await _reservaitonRepository.GetReservationForRoomAsync(request.RoomId, request.Id);
         if (reservation == null)
         {
-            throw new NotFoundException(nameof(reservation), request.id);
+            throw new NotFoundException(nameof(reservation), request.Id);
         }
 
         return _mapper.Map<ReservationDTO>(reservation);

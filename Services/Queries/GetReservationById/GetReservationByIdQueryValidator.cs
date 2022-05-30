@@ -6,6 +6,7 @@ public class GetReservationByIdQueryValidator : AbstractValidator<GetReservation
 {
     public GetReservationByIdQueryValidator()
     {
-        RuleFor(getReservationByIdQuery => getReservationByIdQuery.Id).NotEmpty().NotEqual(Guid.Empty);
+        RuleFor(getReservationByIdQuery => getReservationByIdQuery.Id)
+            .NotEmpty();
     }
 }

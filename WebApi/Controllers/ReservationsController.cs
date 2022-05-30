@@ -2,6 +2,8 @@
 using Application.Commands.DeleteReservation;
 using Application.Commands.UpdateReservation;
 using Application.Queries.GetReservationById;
+using Application.Queries.GetReservationForRoom;
+using Application.Queries.GetReservationListForRoom;
 using Application.Queries.GetReservations;
 using AutoMapper;
 using MediatR;
@@ -9,7 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace WebApi.Controllers
 {
-    [Route("api/reservations")]
+    [Route("api/rooms/{roomId}/reservations")]
     [ApiController]
     public class ReservationsController : ControllerBase
     {
@@ -20,7 +22,7 @@ namespace WebApi.Controllers
             _mediator = mediator;
         }
 
-        [HttpGet]
+        [HttpGet("~/api/reservations")]
         public async Task<IActionResult> GetReservationListAsync()
         {
             var reservationDTOs = await _mediator.Send(new GetReservationListQuery());
@@ -28,7 +30,7 @@ namespace WebApi.Controllers
             return reservationDTOs is null ? NoContent() : Ok(reservationDTOs);
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("~/api/reservations/{id}")]
         public async Task<IActionResult> GetReservationByIdAsync(Guid id)
         {
             var reservationDTO = await _mediator.Send(new GetReservationByIdQuery(id));
@@ -36,20 +38,43 @@ namespace WebApi.Controllers
             return Ok(reservationDTO);
         }
 
+
+        [HttpGet]
+        public async Task<IActionResult> GetReservationListForRoomAsync(Guid roomId)
+        {
+            var reservationDTOs = await _mediator.Send(new GetReservationListForRoomQuery(roomId));
+
+            return reservationDTOs is null ? NotFound() : Ok(reservationDTOs); 
+        }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetReservationForRooomAsync(Guid roomId, Guid id)
+        {
+            var reservationDTO = await _mediator.Send(new GetReservationForRoomQuery(roomId, id));
+
+            return Ok(reservationDTO);
+        }
+
         [HttpPost]
-        public async Task<IActionResult> CreateReservationAsync(
+        public async Task<IActionResult> CreateReservationAsync(Guid roomId,
             [FromBody]CreateReservationCommand command)
         {
+            if(roomId != command.RoomId)
+            {
+                return BadRequest();
+            }
+
             var reservationId = await _mediator.Send(command);
             
-            return CreatedAtAction(nameof(GetReservationByIdAsync), new { id = reservationId }, null);
+            return CreatedAtAction(nameof(GetReservationForRooomAsync),
+                new { roomId = command.RoomId, id = reservationId }, null);
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UdpateReservationAsync(Guid id,
+        public async Task<IActionResult> UdpateReservationAsync(Guid roomId, Guid id,
             [FromBody]UpdateReservationCommand command)
         {
-            if (command.RoomId != id)
+            if (command.RoomId != roomId)
             {
                 return BadRequest();
             }
@@ -60,7 +85,7 @@ namespace WebApi.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteReservationAsync(Guid id)
+        public async Task<IActionResult> DeleteReservationAsync(Guid roomId, Guid id)
         {
             await _mediator.Send(new DeleteReservationCommand(id));
 

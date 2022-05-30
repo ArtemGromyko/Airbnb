@@ -3,4 +3,4 @@ using MediatR;
 
 namespace Application.Queries.GetReservationListForRoom;
 
-public record GetReservationListForRoomQuery(Guid roomId) : IRequest<List<ReservationDTO>>;
+public record GetReservationListForRoomQuery(Guid RoomId) : IRequest<List<ReservationDTO>>;

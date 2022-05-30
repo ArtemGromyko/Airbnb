@@ -4,7 +4,7 @@ using MediatR;
 
 namespace Application.Queries.GetRooms;
 
-internal class GetRoomListQueryHandler : IRequestHandler<GetRoomListQuery, List<RoomDTO>>
+public class GetRoomListQueryHandler : IRequestHandler<GetRoomListQuery, List<RoomDTO>>
 {
     private readonly IMapper _mapper;
     private readonly IRoomRepository _roomRepository;

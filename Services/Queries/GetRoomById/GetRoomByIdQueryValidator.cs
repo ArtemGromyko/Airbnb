@@ -7,7 +7,6 @@ public class GetRoomByIdQueryValidator : AbstractValidator<GetRoomByIdQuery>
     public GetRoomByIdQueryValidator()
     {
         RuleFor(getRoomByIdQuery => getRoomByIdQuery.Id)
-            .NotEmpty()
-            .NotEqual(Guid.Empty);
+            .NotEmpty();
     }
 }

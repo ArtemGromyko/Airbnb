@@ -25,11 +25,12 @@ var configuration = builder.Configuration;
 
 // Add services to the container.
 
-services.AddControllers(options => options.SuppressAsyncSuffixInActionNames = false).AddFluentValidation(c =>
-{
-    c.RegisterValidatorsFromAssemblyContaining<CreateRoomCommand>();
-    c.ValidatorFactoryType = typeof(HttpContextServiceProviderValidatorFactory);
-});
+services.AddControllers(options => options.SuppressAsyncSuffixInActionNames = false)
+    .AddFluentValidation(c =>
+    {
+        c.RegisterValidatorsFromAssemblyContaining<CreateRoomCommand>();
+        c.ValidatorFactoryType = typeof(HttpContextServiceProviderValidatorFactory);
+    });
 services.AddEndpointsApiExplorer();
 services.AddMediatR(typeof(CreateRoomCommand).Assembly);
 services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehaviour<,>));

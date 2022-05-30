@@ -5,15 +5,15 @@ using MediatR;
 
 namespace Application.Queries.GetRoomById;
 
-internal class GetRoomByIdQueryHandler : IRequestHandler<GetRoomByIdQuery, RoomDTO>
+public class GetRoomByIdQueryHandler : IRequestHandler<GetRoomByIdQuery, RoomDTO>
 {
-    private readonly IRoomRepository _roomRepository;
     private readonly IMapper _mapper;
+    private readonly IRoomRepository _roomRepository;
 
     public GetRoomByIdQueryHandler(IRoomRepository roomRepository, IMapper mapper)
     {
-        _roomRepository = roomRepository;
         _mapper = mapper;
+        _roomRepository = roomRepository;
     }
 
     public async Task<RoomDTO> Handle(GetRoomByIdQuery request, CancellationToken cancellationToken)

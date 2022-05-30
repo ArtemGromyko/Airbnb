@@ -1,12 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using FluentValidation;
 
-namespace Application.Queries.GetReservationForRoom
+namespace Application.Queries.GetReservationForRoom;
+
+public class GetReservationForRoomQueryValidator : AbstractValidator<GetReservationForRoomQuery>
 {
-    internal class GetReservationForRoomQueryValidator
+    public GetReservationForRoomQueryValidator()
     {
+        RuleFor(getReservationForRoomQuery => getReservationForRoomQuery.Id)
+            .NotEmpty();
     }
 }

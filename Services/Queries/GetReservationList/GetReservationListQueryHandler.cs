@@ -5,15 +5,15 @@ using MediatR;
 
 namespace Application.Queries.GetReservations;
 
-internal class GetReservationListQueryHandler : IRequestHandler<GetReservationListQuery, List<ReservationDTO>>
+public class GetReservationListQueryHandler : IRequestHandler<GetReservationListQuery, List<ReservationDTO>>
 {
-    private readonly IReservationRepository _reservationRepository;
     private readonly IMapper _mapper;
+    private readonly IReservationRepository _reservationRepository;
 
-    public GetReservationListQueryHandler(IReservationRepository reservationRepository, IMapper mapper)
+    public GetReservationListQueryHandler(IMapper mapper, IReservationRepository reservationRepository)
     {
-        _reservationRepository = reservationRepository;
         _mapper = mapper;
+        _reservationRepository = reservationRepository;
     }
 
     public async Task<List<ReservationDTO>> Handle(GetReservationListQuery request, CancellationToken cancellationToken)
