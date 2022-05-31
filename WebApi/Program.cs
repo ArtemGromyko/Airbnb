@@ -12,13 +12,15 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
+/*.Enrich.WithMachineName()
+            .WriteTo.Console()
+            .WriteTo.File(context.Configuration["Logs:LogsPath"], rollingInterval: RollingInterval.Day)
+            .Enrich.WithProperty(context.Configuration["Logs:Environment"],
+                context.HostingEnvironment.EnvironmentName)*/
+
 builder.Host.UseSerilog((context, configuration) =>
     {
         configuration.Enrich.FromLogContext()
-            .Enrich.WithMachineName()
-            .WriteTo.Console()
-            .WriteTo.File(context.Configuration["Logs:LogsPath"], rollingInterval: RollingInterval.Day)
-            .Enrich.WithProperty(context.Configuration["Logs:Environment"], context.HostingEnvironment.EnvironmentName)
             .ReadFrom.Configuration(context.Configuration);
     });
 
