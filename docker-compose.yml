@@ -1,25 +1,60 @@
 version: '3.4'
 
 services:
-
   webapi:
     image: ${DOCKER_REGISTRY-}webapi
+    ports:
+      - "5000:80"
+    depends_on:
+      - db
+      - els
     build:
       context: .
       dockerfile: WebApi/Dockerfile
-    ports:
-        - "5000:80"
-    depends_on:
-            - db
+
   db:
     image: "mcr.microsoft.com/mssql/server"
     environment:
-        SA_PASSWORD: "Your_password123"
-        ACCEPT_EULA: "Y"
+      SA_PASSWORD: "Your_password123"
+      ACCEPT_EULA: "Y"
     ports:
-        - "1433:1433"
+      - "1433:1433"
     volumes:
-        - airbnb-data:/usr/share/db/data
+      - airbnb-data:/usr/share/db/data
+
+  els:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.17.2
+    container_name: els
+    environment:
+      - node.name=els
+      - cluster.name=es-docker-cluster
+      - xpack.monitoring.enabled=true
+      - xpack.watcher.enabled=false
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      - discovery.type=single-node
+    volumes:
+      - els-data:/usr/share/els/data
+    ports:
+      - 9200:9200
+    networks:
+      - elsnetwork
+
+  kibana:
+    container_name: kib
+    image: docker.elastic.co/kibana/kibana:7.17.2
+    ports:
+      - 5601:5601
+    depends_on:
+      - els
+    environment:
+      - ELASTICSEARCH_HOSTS=http://els:9200
+    networks:
+      - elsnetwork
+
+networks:
+    elsnetwork:
+        driver: bridge
 
 volumes:
     airbnb-data:
+    els-data:
