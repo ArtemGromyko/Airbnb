@@ -6,13 +6,16 @@ services:
     ports:
       - "5000:80"
     depends_on:
-      - db
-      - els
+      - airbnb-db
+      - airbnb-els
     build:
       context: .
       dockerfile: WebApi/Dockerfile
+    networks:
+        - els-network
+        - airbnb-network
 
-  db:
+  airbnb-db:
     image: "mcr.microsoft.com/mssql/server"
     environment:
       SA_PASSWORD: "Your_password123"
@@ -21,12 +24,14 @@ services:
       - "1433:1433"
     volumes:
       - airbnb-data:/usr/share/db/data
+    networks:
+        - airbnb-network
 
-  els:
+  airbnb-els:
     image: docker.elastic.co/elasticsearch/elasticsearch:7.17.2
-    container_name: els
+    container_name: airbnb-els
     environment:
-      - node.name=els
+      - node.name=airbnb-els
       - cluster.name=es-docker-cluster
       - xpack.monitoring.enabled=true
       - xpack.watcher.enabled=false
@@ -37,23 +42,25 @@ services:
     ports:
       - 9200:9200
     networks:
-      - elsnetwork
+      - els-network
 
-  kibana:
-    container_name: kib
+  airbnb-kibana:
+    container_name: airbnb-kib
     image: docker.elastic.co/kibana/kibana:7.17.2
     ports:
       - 5601:5601
     depends_on:
-      - els
+      - airbnb-els
     environment:
-      - ELASTICSEARCH_HOSTS=http://els:9200
+      - ELASTICSEARCH_HOSTS=http://airbnb-els:9200
     networks:
-      - elsnetwork
+      - els-network
 
 networks:
-    elsnetwork:
+    els-network:
         driver: bridge
+    airbnb-network:
+        driver: bridge 
 
 volumes:
     airbnb-data:
