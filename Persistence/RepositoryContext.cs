@@ -7,6 +7,7 @@ namespace Persistence;
 public class RepositoryContext : DbContext
 {
     public DbSet<Room> Rooms { get; set; }
+    public DbSet<Reservation> Reservations { get; set;}
 
     public RepositoryContext(DbContextOptions<RepositoryContext> options) : base(options)
     { }
@@ -16,5 +17,6 @@ public class RepositoryContext : DbContext
         base.OnModelCreating(modelBuilder);
 
         modelBuilder.ApplyConfiguration(new RoomConfiguration());
+        modelBuilder.ApplyConfiguration(new ReservationConfiguration());
     }
 }
